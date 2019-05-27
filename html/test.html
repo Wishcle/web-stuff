@@ -24,12 +24,37 @@
       }
     </style>
 
+    <script>
+      function startTime() {
+        var today = new Date();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('time').innerHTML =
+        (h > 12 ? h-12 : h) + ":" + m + ":" + s;
+        var t = setTimeout(startTime, 500);
+      }
+      function checkTime(i) {
+        if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+        return i;
+      }
+    </script>
+
   </head>
-  <body>
+  <body onload="startTime()">
 
     <!-- HEADER -->    
     <a href="#"><img src="../imgs/lsc-header.jpg" alt="LSC" width="100%"></img></a>
-    <h1 style="margin-top:20px">Lombard Swim Club</h1>
+    <div class="row">
+       <div class="col">
+         <h1 style="margin-top:20px;text-align:center">Lombard Swim Club</h1>
+       </div>
+       <div class="col">
+         <h1 id="time" class="text-center" style="margin-top:20px;"></h1>
+       </div>
+    </div class>
 
     <hr>
 
@@ -80,6 +105,17 @@
     <hr>
 
     <!-- IMAGE -->
+    <div class="container">
+      <p>Welcome to the test website.</p>
+      <p><i>Welcome to the test website.</i></p>
+      <p><b>Welcome to the test website.</b></p>
+      <img src="https://i.kym-cdn.com/entries/icons/original/000/028/021/work.jpg"
+        alt="Honest Work" class="center rounded-circle" style="margin-top:15px">
+    </div>
+
+    <hr>
+
+    <!-- BUSINESS INQUIRIES -->
     <div class="container">
       <p>Welcome to the test website.</p>
       <p><i>Welcome to the test website.</i></p>
