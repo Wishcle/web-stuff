@@ -31,37 +31,44 @@
     </style>
 
     <script>
-      
-      // embedding weather.com table
+	
+	  window.onload = () => {
+		const resetButton = document.getElementById('reset');
+		const words = ['one', 'two', 'red', 'blue'];
+		var i = 0;
+		resetButton.addEventListener('click', () => {
+		  resetButton.innerHTML = words[i];
+		  console.log('clicked');
+		  i++; i %= words.length;
+		});
+	  }
+	
+	  // embedding weather.com table
       var iframe = document.getElementById("hourly-weather-iframe");
       var div = document.getElementById("hourly-weather-div");
       div.innerHTML = iframe.contentWindow.document.getElementById("bo_gmap").innerHTML;
-
-      */
-
 
       // Set the date we're counting down to
       var countDownDate = newDate().getTime + 1800000;
       resetTimer();
 
       // Update the count down every 1 second
-      var x = setInterval(function() {
+      var x = setInterval(() => {
+        // find timeLeft
+		var now = new Date().getTime();
+        var timeLeft = countDownDate - now;
+		
+		// find minute and second values
+		var mins = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        var secs = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-        // Get today's date and time
-        var now = new Date().getTime();
+        // update "countdown" element
+		var timeStr = `${mins}m ${secs}s`;
+		var countdown = document.getElementById('countdown');
+        countdown.innerHTML = timeStr;
 
-        // Find the distance between now and the count down date
-        var distance = countDownDate - now;
-
-        // Time calculations for days, hours, minutes and seconds
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        // Display the result in the element with id="demo"
-        document.getElementById("countdown").innerHTML = minutes + "m " + seconds + "s ";
-
-        // If the count down is finished, write some text 
-        if (distance < 0) {
+        // handle completion 
+        if (timeLeft < 0) {
           clearInterval(x);
           document.getElementById("countdown").innerHTML = "DONE";
         }
@@ -95,7 +102,7 @@
     <div class="container">
       <div class="row">
         <div class="col">
-          <button type="button" class="btn btn-info btn-block">RESET</button>
+          <button id="reset" type="button" class="btn btn-info btn-block">RESET</button>
         </div>
         <div class="col">
           <button type="button" class="btn btn-success btn-block">START</button>
