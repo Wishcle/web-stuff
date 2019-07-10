@@ -28,58 +28,91 @@
         margin-right: auto;
         width: 50%;
       }
+      #timer {
+        font-size: 50px;
+      }
     </style>
 
     <script>
-	
-	  window.onload = () => {
-		const resetButton = document.getElementById('reset');
-		const words = ['one', 'two', 'red', 'blue'];
-		var i = 0;
-		resetButton.addEventListener('click', () => {
-		  resetButton.innerHTML = words[i];
-		  console.log('clicked');
-		  i++; i %= words.length;
-		});
-	  }
-	
-	  // embedding weather.com table
-      var iframe = document.getElementById("hourly-weather-iframe");
-      var div = document.getElementById("hourly-weather-div");
-      div.innerHTML = iframe.contentWindow.document.getElementById("bo_gmap").innerHTML;
+      
+      function setupResetButton() {
+        const resetButton = document.getElementById('reset');
+        const words = ['matthew wilson', 'two', 'red', 'blue'];
+        var i = 0; 
+        resetButton.addEventListener('click', () => {
+          resetButton.innerHTML = words[i];
+          i++; i %= words.length;
+        });
+      };
+      
+      function setupWeatherRadar() {
+        var iframe = document.getElementById('weather-radar');
+        iframe.src = 'https://www.rainviewer.com/map.html?' + 
+            'loc=39.9771,-75.4541,8&oFa=0&oC=0&oU=0&oCS=1&o' + 
+            'F=0&oAP=0&rmt=4&c=1&o=83&lm=0&th=0&sm=1&sn=1';
+      }
 
-      // Set the date we're counting down to
-      var countDownDate = newDate().getTime + 1800000;
-      resetTimer();
-
-      // Update the count down every 1 second
-      var x = setInterval(() => {
-        // find timeLeft
-		var now = new Date().getTime();
-        var timeLeft = countDownDate - now;
-		
-		// find minute and second values
-		var mins = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        var secs = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-        // update "countdown" element
-		var timeStr = `${mins}m ${secs}s`;
-		var countdown = document.getElementById('countdown');
-        countdown.innerHTML = timeStr;
-
-        // handle completion 
-        if (timeLeft < 0) {
-          clearInterval(x);
-          document.getElementById("countdown").innerHTML = "DONE";
+      function setupTimerAndButtons() {
+        // timer constants
+        const initMins = 30;
+        const initSecs = 0;
+        
+        // elements
+        const timerElement = document.getElementById('timer');
+        const resetButton = document.getElementById('reset');
+        const startButton = document.getElementById('start');
+        const stopButton = document.getElementById('stop');
+        
+        // timer vars
+        var running, minsLeft, secsLeft;
+        
+        // timer functions
+        const displayTimer = (mins, secs) => {
+          timerElement.innerHTML = `${mins}m ${secs}s`;
         }
-      }, 1000);
-
-      function resetTimer() { countDownDate = newDate().getTime + 1800000; }
-
+        const startTimer = () => { running = true; };
+        const stopTimer = () => { running = false; };
+        const resetTimer = () => {
+          minsLeft = initMins;
+          secsLeft = initSecs;
+          displayTimer(minsLeft, secsLeft);
+        };
+        
+        // tick function (every second)
+        const tick = () => {
+          if (!running) { return; }
+          if (minsLeft == 0 && secsLeft == 0) {
+            stopTimer();
+          } else {
+            if (secsLeft == 0) {
+              minsLeft--;
+              secsLeft = 59;
+            } else { 
+              secsLeft--;
+            }
+          }
+          
+          displayTimer(minsLeft, secsLeft);
+        };
+        
+        startButton.addEventListener('click', startTimer);
+        stopButton.addEventListener('click', stopTimer);
+        resetButton.addEventListener('click', resetTimer);
+        
+        var intervalTimer = setInterval(tick, 1000);
+        resetTimer();
+      }
+      
+      window.onload = () => {
+        setupResetButton();
+        setupWeatherRadar();
+        setupTimerAndButtons();
+      }
+      
     </script>
 
   </head>
-  <body> <!--onload="startTime()"-->
+  <body>
 
     <!-- HEADER -->
     <div class="container" style="margin-top:20px">
@@ -105,10 +138,10 @@
           <button id="reset" type="button" class="btn btn-info btn-block">RESET</button>
         </div>
         <div class="col">
-          <button type="button" class="btn btn-success btn-block">START</button>
+          <button id="start" type="button" class="btn btn-success btn-block">START</button>
         </div>
         <div class="col">
-          <button type="button" class="btn btn-danger btn-block">STOP</button>
+          <button id="stop" type="button" class="btn btn-danger btn-block">STOP</button>
         </div>
       </div>
     </div>    
@@ -116,7 +149,7 @@
     <!-- TIMER -->
     <div class="container" style="margin-top:20px;margin-bottom:20px">
       <h1 id="time" style="margin-bottom:0px;font-size:56px;border-radius:5px;background-color:black"></h1>
-      <p id="countdown"></p>
+      <p id="timer"></p>
     </div>
 
     <hr>
@@ -124,8 +157,8 @@
     <!-- WEATHER WIDGETS -->
     <div class="container">
       <div class="row">
-        <div class="col">  
-          <iframe src="https://www.rainviewer.com/map.html?loc=39.9771,-75.4541,8&oFa=0&oC=0&oU=0&oCS=1&oF=0&oAP=0&rmt=4&c=1&o=83&lm=0&th=0&sm=1&sn=1" width="100%" frameborder="0" style="border:0;height:50vh;" allowfullscreen></iframe>
+        <div class="col-md">  
+          <iframe id="weather-radar" width="100%" frameborder="0" style="border:0;height:50vh;" allowfullscreen=true></iframe>
         </div>
       </div>
     </div>
