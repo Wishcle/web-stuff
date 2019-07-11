@@ -14,10 +14,7 @@
         color: white;
       }
       h1 { text-align: center; }
-      img { 
-        //border: 1px solid white;
-        width: 100%;
-      }
+      
       p {
         text-align: center;
         margin: 0px;
@@ -30,6 +27,10 @@
       }
       #timer {
         font-size: 50px;
+      }
+      img {
+        width: 100%;
+        height: 200px;
       }
     </style>
 
@@ -113,6 +114,31 @@
         var intervalTimer = setInterval(tick, 1000);
         resetTimer();
       }
+
+
+      function setupImageHover() {
+        const imgs = document.getElementsByClassName('hover');
+        console.log(imgs);
+        console.log(typeof imgs);
+
+        // set to matt wilson
+        const mouseOver = (img) => {
+          const matt_url = '../imgs/matt-wilson.png';
+          img.src = matt_url;
+        };
+
+        // set to thunder
+        const mouseOut = (img) => {
+          const thunder_url = '../imgs/thunder-cloud.png';
+          img.src = thunder_url;
+        };
+
+        // add listeners to elements
+        for (let img of imgs) {
+          img.addEventListener('mouseover', () => { mouseOver(img); });
+          img.addEventListener('mouseout', () => { mouseOut(img); });
+        }
+      }
       
       function setupEmailButton() {
         const openEmail = (recipient, subject, body) => {
@@ -132,7 +158,7 @@
         setupResetButton();
         setupWeatherRadar();
         setupTimerAndButtons();
-        setupEmailButton();
+        setupImageHover();
       }
       
     </script>
@@ -144,13 +170,13 @@
     <div class="container" style="margin-top:20px">
       <div class="row">
         <div class="col-3">
-          <img src="../imgs/thunder-cloud.png" alt="thunder-cloud.png">
+          <img class="hover" src="../imgs/thunder-cloud.png" alt="thunder-cloud.png">
         </div>
         <div class="col-6">
           <h1>Front Desk Thunder Console</h1>
         </div>
         <div class="col-3">
-          <img src="../imgs/thunder-cloud.png" alt="thunder-cloud.png">
+          <img class="hover" src="../imgs/thunder-cloud.png" alt="thunder-cloud.png">
         </div>
       </div>
     </div>
@@ -192,7 +218,7 @@
     <!-- WEATHER WIDGETS -->
     <div class="container">
       <div class="row">
-        <div class="col-md">  
+        <div class="col-lg">  
           <iframe id="weather-radar" width="100%" frameborder="0" style="border:0;height:50vh;" allowfullscreen=true></iframe>
         </div>
       </div>
