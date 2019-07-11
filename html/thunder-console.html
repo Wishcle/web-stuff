@@ -54,8 +54,7 @@
 
       function setupTimerAndButtons() {
         // timer constants
-        const initMins = 30;
-        const initSecs = 0;
+        const initTimeLeft = 30 * 60 * 1000;
         
         // elements
         const timerElement = document.getElementById('timer');
@@ -64,35 +63,47 @@
         const stopButton = document.getElementById('stop');
         
         // timer vars
-        var running, minsLeft, secsLeft;
-        
+        var running, timeLeft, timeEnd;
+		
         // timer functions
-        const displayTimer = (mins, secs) => {
-          timerElement.innerHTML = `${mins}m ${secs}s`;
-        }
-        const startTimer = () => { running = true; };
-        const stopTimer = () => { running = false; };
+        const currentTime = () => {
+          return new Date().getTime();
+        };
+        
+        const displayTimer = (timeLeft) => {
+          var secs = Math.floor(timeLeft / 1000);
+          var mins = Math.floor(secs / 60); secs %= 60;
+          timerElement.innerHTML = 
+              `${mins<10?'0':''}${mins}:${secs<10?'0':''}${secs}s`;
+        };
+        
+        const startTimer = () => { 
+          running = true;
+          timeEnd = currentTime() + timeLeft;
+        };
+        
+        const stopTimer = () => { 
+          running = false;
+        };
+        
         const resetTimer = () => {
-          minsLeft = initMins;
-          secsLeft = initSecs;
-          displayTimer(minsLeft, secsLeft);
+          timeLeft = initTimeLeft;
+          timeEnd = currentTime() + timeLeft;
+          displayTimer(timeLeft);
         };
         
         // tick function (every second)
         const tick = () => {
           if (!running) { return; }
-          if (minsLeft == 0 && secsLeft == 0) {
+          
+          timeLeft = timeEnd - currentTime();
+          
+          if (timeLeft < 0) {
+            timeLeft = 0;
             stopTimer();
-          } else {
-            if (secsLeft == 0) {
-              minsLeft--;
-              secsLeft = 59;
-            } else { 
-              secsLeft--;
-            }
           }
           
-          displayTimer(minsLeft, secsLeft);
+          displayTimer(timeLeft);
         };
         
         startButton.addEventListener('click', startTimer);
@@ -103,10 +114,25 @@
         resetTimer();
       }
       
+      function setupEmailButton() {
+        const openEmail = (recipient, subject, body) => {
+          const url = `mailto:${recipient}?subject=${subject}&body=${body}`;
+          window.open(url);
+        }
+        
+        var recipient = 'cpmqaq@gmail.com';
+        var subject = 'LSC Waitlist';
+        var body = 'Dear Riley,\n\nYou got ten more years.\n\nWarm Regards,\nLSC Management';
+        
+        const emailButton = document.getElementById('email');
+        emailButton.addEventListener('click', openEmail(recipient, subject, body));
+      }
+      
       window.onload = () => {
         setupResetButton();
         setupWeatherRadar();
         setupTimerAndButtons();
+        setupEmailButton();
       }
       
     </script>
@@ -144,7 +170,7 @@
           <button id="stop" type="button" class="btn btn-danger btn-block">STOP</button>
         </div>
       </div>
-    </div>    
+    </div> 
 
     <!-- TIMER -->
     <div class="container" style="margin-top:20px;margin-bottom:20px">
@@ -153,6 +179,15 @@
     </div>
 
     <hr>
+    
+    <!-- EMAIL BUTTON -->
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <button id="email" type="button" class="btn btn-basic btn-block">OPEN EMAIL</button>
+        </div>
+      </div>
+    </div> 
 
     <!-- WEATHER WIDGETS -->
     <div class="container">
