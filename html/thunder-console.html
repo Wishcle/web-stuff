@@ -14,7 +14,12 @@
         color: white;
       }
       h1 { text-align: center; }
-      
+      .jumbotron {
+        background-color: black;
+        border-radius: 15px;
+        border-width: 2px;
+        border-color: white;
+      }
       p {
         text-align: center;
         margin: 0px;
@@ -27,6 +32,8 @@
       }
       #timer {
         font-size: 50px;
+        border-width: 1px;
+        border-color: white;
       }
       img {
         width: 100%;
@@ -75,7 +82,7 @@
           var secs = Math.floor(timeLeft / 1000);
           var mins = Math.floor(secs / 60); secs %= 60;
           timerElement.innerHTML = 
-              `${mins<10?'0':''}${mins}:${secs<10?'0':''}${secs}s`;
+              `${mins<10?'0':''}${mins}:${secs<10?'0':''}${secs}`;
         };
         
         const startTimer = () => { 
@@ -118,8 +125,6 @@
 
       function setupImageHover() {
         const imgs = document.getElementsByClassName('hover');
-        console.log(imgs);
-        console.log(typeof imgs);
 
         // set to matt wilson
         const mouseOver = (img) => {
@@ -138,20 +143,6 @@
           img.addEventListener('mouseover', () => { mouseOver(img); });
           img.addEventListener('mouseout', () => { mouseOut(img); });
         }
-      }
-      
-      function setupEmailButton() {
-        const openEmail = (recipient, subject, body) => {
-          const url = `mailto:${recipient}?subject=${subject}&body=${body}`;
-          window.open(url);
-        }
-        
-        var recipient = 'cpmqaq@gmail.com';
-        var subject = 'LSC Waitlist';
-        var body = 'Dear Riley,\n\nYou got ten more years.\n\nWarm Regards,\nLSC Management';
-        
-        const emailButton = document.getElementById('email');
-        emailButton.addEventListener('click', openEmail(recipient, subject, body));
       }
       
       window.onload = () => {
@@ -185,7 +176,12 @@
 
     <!-- TIMER BUTTONS -->
     <div class="container">
-      <div class="row">
+      <div class="row" >
+        <div class="col" style="border-width:1px;border-color:white;">
+          <p id="timer"></p>
+        </div>
+      </div>
+      <div class="row" style="border-width:1px;border-color:white;">
         <div class="col">
           <button id="reset" type="button" class="btn btn-info btn-block">RESET</button>
         </div>
@@ -196,24 +192,10 @@
           <button id="stop" type="button" class="btn btn-danger btn-block">STOP</button>
         </div>
       </div>
-    </div> 
-
-    <!-- TIMER -->
-    <div class="container" style="margin-top:20px;margin-bottom:20px">
-      <h1 id="time" style="margin-bottom:0px;font-size:56px;border-radius:5px;background-color:black"></h1>
-      <p id="timer"></p>
+      
     </div>
 
     <hr>
-    
-    <!-- EMAIL BUTTON -->
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <button id="email" type="button" class="btn btn-basic btn-block">OPEN EMAIL</button>
-        </div>
-      </div>
-    </div> 
 
     <!-- WEATHER WIDGETS -->
     <div class="container">
