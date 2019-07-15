@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>Animation Tests</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <style>
+      body {
+        background-color: green;
+        font-family: "Comic Sans MS";
+        animation-name: backgroundChange;
+        animation-duration: 8s;
+        animation-iteration-count: infinite;
+      }
+      
+      h1 {
+        align-content: center;
+        animation-name: textChange;
+        animation-duration: 8s;
+        animation-iteration-count: infinite;
+      }
+      
+      @keyframes backgroundChange {
+        0%   {background-color: cyan;}
+        25%  {background-color: orange;}
+        50%  {background-color: blue;}
+        75%  {background-color: indigo;}
+        100% {background-color: cyan;} 
+      }
+      
+      @keyframes textChange {
+        0%   {color: orange;}
+        25%  {color: pink;}
+        50%  {color: red;}
+        75%  {color: lime;}
+        100% {color: orange;} 
+      }
+    </style>
+    <script>
+    
+    </script>
+  </head>
+  <body>
+  
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h1><b>Welcome !!1!!1!one!!!</b></h1>
+        </div>
+      </div>
+    </div>
+  
+  </body>
+</html>
+	
